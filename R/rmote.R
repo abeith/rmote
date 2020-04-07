@@ -20,16 +20,16 @@ NULL
 #'
 #' @export
 #' @importFrom servr httd
-start_rmote <- function(
-  server_dir = file.path(tempdir(), "rmote_server"),
-  port = 4321, daemon = TRUE,
-  help = TRUE, graphics = TRUE,
-  basegraphics = TRUE, htmlwidgets = TRUE,
-  hostname = TRUE, history = TRUE) {
-
+start_rmote <- function(host = '127.0.0.1',
+                        server_dir = file.path(tempdir(), "rmote_server"),
+                        port = 4321, daemon = TRUE,
+                        help = TRUE, graphics = TRUE,
+                        basegraphics = TRUE, htmlwidgets = TRUE,
+                        hostname = TRUE, history = TRUE) {
+  
   if (!file.exists(server_dir))
     dir.create(server_dir, recursive = TRUE, showWarnings = FALSE)
-
+  
   options(rmote_server_dir = server_dir)
   options(rmote_server_port = port)
   options(rmote_help = help)
@@ -45,7 +45,7 @@ start_rmote <- function(
     set_base_plot_hook()
 
   try(servr::httw(server_dir, pattern = "index.html", port = port,
-      daemon = daemon, browser = FALSE), silent = TRUE)
+      daemon = daemon, browser = FALSE, host = host), silent = TRUE)
 }
 
 #' Stop an rmote server
